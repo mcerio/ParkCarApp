@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp">
+
+    <ImageView
+        android:id="@+id/imageViewPinMaps"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        app:srcCompat="@mipmap/ic_launcher_position_foreground" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nome Posizione" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Coordinate" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageViewShare"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        app:srcCompat="?attr/actionModeShareDrawable" />
+
+    <ImageView
+        android:id="@+id/imageViewBin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
+</LinearLayout>
