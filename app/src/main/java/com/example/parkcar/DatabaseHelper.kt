@@ -2,9 +2,9 @@ package com.example.parkcar
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.location.Address
 import android.widget.Toast
 
 val DATABASE_VERSION = 1
@@ -63,4 +63,6 @@ class DataBaseHelper(var context: Context) : SQLiteOpenHelper(context, DATABASE_
         }
         return list
     }
+
+
 }

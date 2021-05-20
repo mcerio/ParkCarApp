@@ -1,15 +1,21 @@
 package com.example.parkcar
+
 import android.content.Context
-import android.util.Log
+import android.icu.text.AlphabeticIndex.Record
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import android.widget.TextView
+
 
 class ListPositionAdapter(private val context: Context, private val data: MutableList<Position>) : BaseAdapter() {
-
+    lateinit var db:DataBaseHelper
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
+        db=DataBaseHelper(context)
+        db.readData()
         var newView = convertView
         if (convertView == null)
             newView = LayoutInflater.from(context)
@@ -17,13 +23,28 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
         if (newView != null) {
 
 
-            val personSurname: ImageView = newView.findViewById(R.id.imageViewPinMaps)
-            val personName: ImageView = newView.findViewById(R.id.imageViewShare)
-            val personPos: ImageView = newView.findViewById(R.id.imageViewBin)
+            val imagePinMaps: ImageView = newView.findViewById(R.id.imageViewPinMaps)
+            val shareLogo: ImageView = newView.findViewById(R.id.imageViewShare)
+            val binLogo: ImageView = newView.findViewById(R.id.imageViewBin)
+            val indirizzo: TextView = newView.findViewById(R.id.indirizzo)
+            val coordinate: TextView = newView.findViewById(R.id.coordinate)
 
-            // val personSurname: TextView = newView.findViewById(R.id.textView)
 
-            Log.v("postClick", "Lista")
+
+
+
+
+
+            /*while (data.moveToNext()) {
+                val r: Record<*> = Record<Any?>()
+                r.setRecordRollno(data.getString(1))
+                r.setRecordName(data.getString(2))
+                theList.add(r)
+                val listAdapter: ListAdapter =
+                    ArrayAdapter<Any?>(this, android.R.layout.simple_list_item_1, theList)
+                listView.setAdapter(listAdapter)
+            }*/
+
             //val parts = data[position].split(" ")
             /* personSurname.text = parts[1]
              personName.text = parts[0]
