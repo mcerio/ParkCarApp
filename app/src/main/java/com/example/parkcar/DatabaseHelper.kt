@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import android.widget.Toast
 
 val DATABASE_VERSION = 1
@@ -64,5 +65,15 @@ class DataBaseHelper(var context: Context) : SQLiteOpenHelper(context, DATABASE_
         return list
     }
 
+    fun removeData(position:Position) {
+
+        val db = this.readableDatabase
+        var posId=position.id
+        Log.v("ID","$posId //////////////////////////////////////////////////////////////////////////////////")
+        val query = "Delete  from $TABLENAME where $ID_PARKING=$posId"
+        val result = db.rawQuery(query, null)
+
+
+    }
 
 }

@@ -1,18 +1,30 @@
 package com.example.parkcar
 
 import android.content.Context
-import android.icu.text.AlphabeticIndex.Record
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 
 
 class ListPositionAdapter(private val context: Context, private val data: MutableList<Position>) : BaseAdapter() {
     lateinit var db:DataBaseHelper
+    lateinit var imagePinMaps: ImageView
+    lateinit var shareLogo: ImageView
+    lateinit var binLogo: ImageView
+    lateinit var indirizzo: TextView
+    lateinit var coordinate: TextView
+    lateinit var pos:Position
+    var lat:Double=0.0
+    var long:Double=0.0
+    var addr=""
+
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         db=DataBaseHelper(context)
         db.readData()
@@ -23,11 +35,11 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
         if (newView != null) {
 
 
-            val imagePinMaps: ImageView = newView.findViewById(R.id.imageViewPinMaps)
-            val shareLogo: ImageView = newView.findViewById(R.id.imageViewShare)
-            val binLogo: ImageView = newView.findViewById(R.id.imageViewBin)
-            val indirizzo: TextView = newView.findViewById(R.id.indirizzo)
-            val coordinate: TextView = newView.findViewById(R.id.coordinate)
+             imagePinMaps= newView.findViewById(R.id.imageViewPinMaps)
+             shareLogo= newView.findViewById(R.id.imageViewShare)
+             binLogo = newView.findViewById(R.id.imageViewBin)
+             indirizzo = newView.findViewById(R.id.indirizzo)
+             coordinate = newView.findViewById(R.id.coordinate)
 
 
 
@@ -36,10 +48,10 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
 
 
             for(i in 0..(dbList.size)-1) {
-                var lat=dbList[i].lat
-                var long=dbList[i].long
-                var addr=dbList[i].address
-
+                 lat=dbList[i].lat
+                 long=dbList[i].long
+                 addr=dbList[i].address
+                 pos=Position(lat,long,addr)
                 indirizzo.text=addr
                 coordinate.text="$lat,$long"
             }
@@ -50,8 +62,37 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
              personPos.text =
                  "${position+1}"*/
         }
+
+
+        shareLogo.setOnClickListener{
+
+
+            val uri = "http://maps.google.com/maps?saddr=$lat,$long"
+
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            val ShareSub = "Here is my location"
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, ShareSub)
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, uri)
+
+            context.startActivity(Intent.createChooser(sharingIntent, "Share via"))
+        }
+
+
+        binLogo.setOnClickListener{
+
+            //TODO cancello parcheggio
+            db.removeData(pos)
+            notifyDataSetChanged()
+            notifyDataSetInvalidated()
+
+
+        }
+
         return newView
     }
+
+
 
     override fun getItem(position: Int): Any {
         return position
