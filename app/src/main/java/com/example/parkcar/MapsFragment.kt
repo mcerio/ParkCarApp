@@ -2,21 +2,21 @@ package com.example.parkcar
 
 import android.app.Activity
 import android.content.pm.PackageManager
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+
 
 class MapsFragment : Fragment() {
 
@@ -38,9 +38,12 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val sydney = LatLng(lat, long)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val current_loc = LatLng(lat, long)
+        googleMap.addMarker(MarkerOptions().position(current_loc).title("Marker in Sydney"))
+        val cameraPosition = CameraPosition.Builder().target(current_loc).zoom(14.0f).build()
+        val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
+        googleMap.moveCamera(cameraUpdate)
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLng(current_loc))
     }
 
     override fun onCreateView(
@@ -88,8 +91,8 @@ class MapsFragment : Fragment() {
 
                 lat=it.latitude
                 long=it.longitude
-                pos= Position(lat,long,address)
-                db.insertData(pos)
+                //pos= Position(lat,long,address)
+                //db.insertData(pos)
 
             }
         }

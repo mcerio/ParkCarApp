@@ -32,18 +32,17 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
 
 
 
+            val dbList=db.readData()
 
 
+            for(i in 0..(dbList.size)-1) {
+                var lat=dbList[i].lat
+                var long=dbList[i].long
+                var addr=dbList[i].address
 
-            /*while (data.moveToNext()) {
-                val r: Record<*> = Record<Any?>()
-                r.setRecordRollno(data.getString(1))
-                r.setRecordName(data.getString(2))
-                theList.add(r)
-                val listAdapter: ListAdapter =
-                    ArrayAdapter<Any?>(this, android.R.layout.simple_list_item_1, theList)
-                listView.setAdapter(listAdapter)
-            }*/
+                indirizzo.text=addr
+                coordinate.text="$lat,$long"
+            }
 
             //val parts = data[position].split(" ")
             /* personSurname.text = parts[1]
