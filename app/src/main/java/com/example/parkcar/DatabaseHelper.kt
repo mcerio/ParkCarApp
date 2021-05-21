@@ -15,7 +15,7 @@ val ID_PARKING = "idParking"
 val LAT = "latitude"
 val LONG = "longitude"
 val ADDRESS = "address"
-
+lateinit var pos: Position
 
 
 class DataBaseHelper(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION){
@@ -54,21 +54,22 @@ class DataBaseHelper(var context: Context) : SQLiteOpenHelper(context, DATABASE_
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()) {
             do {
-                val pos = Position()
-                pos.id = result.getInt(result.getColumnIndex(ID_PARKING))
-                pos.lat = result.getDouble(result.getColumnIndex(LAT))
-                pos.long = result.getDouble(result.getColumnIndex(LONG))
-                pos.address = result.getString(result.getColumnIndex(ADDRESS))
+                var p = Position()
+                p.id = result.getInt(result.getColumnIndex(ID_PARKING))
+                p.lat = result.getDouble(result.getColumnIndex(LAT))
+                p.long = result.getDouble(result.getColumnIndex(LONG))
+                p.address = result.getString(result.getColumnIndex(ADDRESS))
+                pos=p
                 list.add(pos)
             } while (result.moveToNext())
         }
         return list
     }
 
-    fun removeData(position:Position) {
+    fun removeData() {
 
         val db = this.readableDatabase
-        var posId=position.id
+        var posId=pos.id
         Log.v("ID","$posId //////////////////////////////////////////////////////////////////////////////////")
         val query = "Delete  from $TABLENAME where $ID_PARKING=$posId"
         val result = db.rawQuery(query, null)

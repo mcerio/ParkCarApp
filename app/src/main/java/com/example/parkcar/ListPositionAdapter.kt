@@ -56,11 +56,7 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
                 coordinate.text="$lat,$long"
             }
 
-            //val parts = data[position].split(" ")
-            /* personSurname.text = parts[1]
-             personName.text = parts[0]
-             personPos.text =
-                 "${position+1}"*/
+
         }
 
 
@@ -82,7 +78,7 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
         binLogo.setOnClickListener{
 
             //TODO cancello parcheggio
-            db.removeData(pos)
+            db.removeData()
             notifyDataSetChanged()
             notifyDataSetInvalidated()
 
