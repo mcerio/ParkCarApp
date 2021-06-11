@@ -1,5 +1,6 @@
 package com.example.parkcar
 
+import android.content.Intent
 import android.os.Bundle
 
 
@@ -36,17 +37,20 @@ class ListPositionFragment : Fragment() {
 
 
         val db = DataBaseHelper(requireContext())
-        var users = db.readData()
+        var pos = db.readData()
 
-        val adapter=ListPositionAdapter(requireContext(), users)
+        val adapter=ListPositionAdapter(requireContext(), pos)
         list_view.adapter = adapter
 
 
-        new_park.setOnClickListener{
-            fragmentManager?.commit {
+        /*new_park.setOnClickListener{
+            /*fragmentManager?.commit {
                 setReorderingAllowed(true)
-                replace<SavePositionFragment>(R.id.fragmentContainerView)
-            }
-        }
+                replace<SavePositionFragment>(R.id.fragmentContainerView)*/
+
+            val intent= Intent(requireContext(),SecondActivity::class.java)
+            startActivity(intent)
+
+        }*/
     }
 }

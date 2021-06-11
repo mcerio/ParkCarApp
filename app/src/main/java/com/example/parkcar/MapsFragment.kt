@@ -38,8 +38,9 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
+
         val current_loc = LatLng(lat, long)
-        googleMap.addMarker(MarkerOptions().position(current_loc).title("Marker in Sydney"))
+        googleMap.addMarker(MarkerOptions().position(current_loc).title("You are here"))
         val cameraPosition = CameraPosition.Builder().target(current_loc).zoom(14.0f).build()
         val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
         googleMap.moveCamera(cameraUpdate)
@@ -52,10 +53,15 @@ class MapsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        /*
         db=DataBaseHelper(requireContext())
         fusedLocationClient=LocationServices.getFusedLocationProviderClient(requireContext())
 
-        fetchLocation()
+        fetchLocation()*/
+        lat=requireActivity().intent.getDoubleExtra("lat",0.0)
+        long=requireActivity().intent.getDoubleExtra("long",0.0)
+        address=requireActivity().intent.getStringExtra("addr")!!
+
 
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
@@ -73,7 +79,7 @@ class MapsFragment : Fragment() {
 
 
 
-    private fun fetchLocation() {
+    /*private fun fetchLocation() {
         val task= fusedLocationClient.lastLocation
 
 
@@ -96,5 +102,5 @@ class MapsFragment : Fragment() {
 
             }
         }
-    }
+    }*/
 }
