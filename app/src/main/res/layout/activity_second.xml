@@ -16,7 +16,9 @@
 
     <Button
         android:id="@+id/save_parking"
+        style="@android:style/ButtonBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="@string/string_button_savePosition"
+        android:textColor="@color/black" />
 </LinearLayout>

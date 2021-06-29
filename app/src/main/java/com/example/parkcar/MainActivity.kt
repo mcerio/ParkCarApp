@@ -4,99 +4,88 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(){
 
-    private var addr: String="AFRICA"
-    private var long: Double=0.0
-    private var lat: Double=0.0
-    //lateinit var db: DataBaseHelper
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var locationManager: LocationManager
-
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient // Fused location client to provide the current location
+    private lateinit var db: DataBaseHelper
+    private var parkingList: MutableList<Position> = ArrayList()
+    private lateinit var adapter: ListPositionAdapter
+    private var latitude: Double = 0.0 // Latitude of the current location initialized
+    private var longitude: Double = 0.0 // Longitude of the current location initialized
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Initialize the location provider client
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        // Inflate the layout for this fragment
         setContentView(R.layout.activity_main)
 
 
-        fusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
 
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager;
-        new_park.setOnClickListener{
-            fetchLocation()
 
-            /*fragmentManager?.commit {
-                setReorderingAllowed(true)
-                replace<SavePositionFragment>(R.id.fragmentContainerView)*/
-
-            val intent= Intent(this,SecondActivity::class.java)
-            intent.putExtra("lat",lat)
-            intent.putExtra("long",long)
-            intent.putExtra("addr",addr)
-
-            startActivity(intent)
-
-        }
-    }
-    private fun fetchLocation() {
-        val task= fusedLocationClient.lastLocation
-
-        if (ActivityCompat.checkSelfPermission(
+        // Getting the current location (long - lat)
+        val locationTask = if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+            fusedLocationProviderClient.lastLocation
+        } else {
+            fusedLocationProviderClient.lastLocation
+        }
+
+        locationTask.addOnSuccessListener {
+            latitude = it?.latitude ?: 0.0
+            longitude = it?.longitude ?: 0.0
 
         }
-        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
 
 
-        //if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION)
-        //    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION)
-        //    != PackageManager.PERMISSION_GRANTED){
-        //    ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),101)
-        //    return
-        //}
+        new_park.setOnClickListener {
+            // Starting the new activity to show the countdown and the maps
+            val intent = Intent(this, SecondActivity::class.java)
+            intent.putExtra("lat", latitude)
+            intent.putExtra("long", longitude)
 
-            if(location!=null){
+            //acquisisco la località
+            val geocoder = Geocoder(this, Locale.getDefault())
 
+            val addr: List<Address> = geocoder.getFromLocation(latitude, longitude, 1)
 
-                    val lat=location.longitude
-                    val long=location.latitude
-                    Toast.makeText(this, "$lat,$long", Toast.LENGTH_LONG).show()
+            // The current location
 
-
-
-            }else{
-                Toast.makeText(this, "NON VA ", Toast.LENGTH_LONG).show()
-            }
-
-
-
+            val location = addr[0].getAddressLine(0)
+            intent.putExtra("addr",location)
+            startActivity(intent)
+        }
     }
+
+
+
 
 
 }

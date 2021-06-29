@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ParkCar</string>
+    <string name="string_button_newPosition">NUOVO PARCHEGGIO</string>
+    <string name="string_button_savePosition">SALVA LA POSIZIONE</string>
+    <string name="tag_position">Sei qui</string>
+</resources>

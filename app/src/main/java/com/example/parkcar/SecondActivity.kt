@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_second.*
 class SecondActivity : AppCompatActivity() {
 
     private lateinit var db:DataBaseHelper
-    private var addr: String="AFRICA"
+    private var addr: String=""
     private var long: Double=0.0
     private var lat: Double=0.0
 

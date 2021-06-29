@@ -40,7 +40,7 @@ class MapsFragment : Fragment() {
          */
 
         val current_loc = LatLng(lat, long)
-        googleMap.addMarker(MarkerOptions().position(current_loc).title("You are here"))
+        googleMap.addMarker(MarkerOptions().position(current_loc).title(this.resources.getText(R.string.tag_position).toString()))
         val cameraPosition = CameraPosition.Builder().target(current_loc).zoom(14.0f).build()
         val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
         googleMap.moveCamera(cameraUpdate)
@@ -60,7 +60,7 @@ class MapsFragment : Fragment() {
         fetchLocation()*/
         lat=requireActivity().intent.getDoubleExtra("lat",0.0)
         long=requireActivity().intent.getDoubleExtra("long",0.0)
-        address=requireActivity().intent.getStringExtra("addr")!!
+        //address=requireActivity().intent.getStringExtra("addr")!!
 
 
         return inflater.inflate(R.layout.fragment_maps, container, false)
