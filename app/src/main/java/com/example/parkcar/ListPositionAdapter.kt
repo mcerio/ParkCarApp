@@ -50,28 +50,21 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
 
 
 
-            createList()
+            dbList=db.readData()
 
 
-        }
+            for(i in 0 until (dbList.size)) {
+                id=dbList[i].id
+                println(id)
+                lat=dbList[i].lat
+                long=dbList[i].long
+                addr=dbList[i].address
+                pos=Position(lat,long,addr)
+                indirizzo.text=addr
+                coordinate.text="$lat,$long"
+            }
 
-
-        shareLogo.setOnClickListener{
-
-
-            val uri = "http://maps.google.com/maps?saddr=$lat,$long"
-
-            val sharingIntent = Intent(Intent.ACTION_SEND)
-            sharingIntent.type = "text/plain"
-            val ShareSub = "Here is my location"
-            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, ShareSub)
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, uri)
-
-            context.startActivity(Intent.createChooser(sharingIntent, "Share via"))
-        }
-
-
-        binLogo.setOnClickListener{
+            binLogo.setOnClickListener{
 
 
                 val builder = AlertDialog.Builder(context)
@@ -86,14 +79,10 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
 
                         db.removeData(id)
 
-                        dbList.removeAt(i)
+                        dbList.removeAt(position)
                         println(dbList)
-
-
-
-                        this.notifyDataSetInvalidated()
-                        this.notifyDataSetChanged()
-                        this.createList()
+                        dbList.forEach{i->print(i)}
+                        notifyDataSetChanged()
 
 
                         val confirmation = AlertDialog.Builder(context)
@@ -132,7 +121,27 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
                 builder.create().show()
 
 
+            }
+
         }
+
+
+        shareLogo.setOnClickListener{
+
+
+            val uri = "http://maps.google.com/maps?saddr=$lat,$long"
+
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            val ShareSub = "Here is my location"
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, ShareSub)
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, uri)
+
+            context.startActivity(Intent.createChooser(sharingIntent, "Share via"))
+        }
+
+
+
 
         newView?.setOnClickListener {
             val intent = Intent(context, OpenPositionActivity::class.java)
@@ -148,22 +157,7 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
     }
 
 
-    @SuppressLint("SetTextI18n")
-    private fun createList(){
-        dbList=db.readData()
 
-
-        for(i in 0 until (dbList.size)) {
-            id=dbList[i].id
-            println(id)
-            lat=dbList[i].lat
-            long=dbList[i].long
-            addr=dbList[i].address
-            pos=Position(lat,long,addr)
-            indirizzo.text=addr
-            coordinate.text="$lat,$long"
-        }
-    }
 
     override fun getItem(position: Int): Any {
         return position
