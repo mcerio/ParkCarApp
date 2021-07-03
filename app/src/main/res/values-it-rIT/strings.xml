@@ -4,4 +4,5 @@
     <string name="string_button_newPosition">NUOVO PARCHEGGIO</string>
     <string name="string_button_savePosition">SALVA LA POSIZIONE</string>
     <string name="tag_position">Sei qui</string>
+    <string name="no_park">Nessun parcheggio inserito</string>
 </resources>

@@ -41,6 +41,7 @@ class ListPositionFragment : Fragment() {
 
         val adapter=ListPositionAdapter(requireContext(), pos)
         list_view.adapter = adapter
+        list_view.emptyView=noParkingTextView
 
 
         /*new_park.setOnClickListener{

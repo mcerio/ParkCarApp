@@ -48,7 +48,7 @@ class SavePositionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        button.setOnClickListener{
+        /*button.setOnClickListener{
             db = DataBaseHelper(requireContext())
             /*TODO devo prendere i campi dal gps per inserirli nel db e sulla mappa
 
@@ -61,7 +61,7 @@ class SavePositionFragment : Fragment() {
                 setReorderingAllowed(true)
                 replace<ListPositionFragment>(R.id.fragmentContainerView)
             }
-        }
+        }*/
 
     }
 

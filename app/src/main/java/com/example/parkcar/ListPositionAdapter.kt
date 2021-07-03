@@ -24,7 +24,6 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
     lateinit var coordinate: TextView
     lateinit var pos:Position
     var id:Int=0
-    var i: Int = 0
     var lat:Double=0.0
     var long:Double=0.0
     var addr=""
@@ -53,16 +52,14 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
             dbList=db.readData()
 
 
-            for(i in 0 until (dbList.size)) {
-                id=dbList[i].id
-                println(id)
-                lat=dbList[i].lat
-                long=dbList[i].long
-                addr=dbList[i].address
-                pos=Position(lat,long,addr)
-                indirizzo.text=addr
-                coordinate.text="$lat,$long"
-            }
+            id=(dbList[position].id)
+            println(id)
+            lat=dbList[position].lat
+            long=dbList[position].long
+            addr=dbList[position].address
+            pos=Position(lat,long,addr)
+            indirizzo.text=addr
+            coordinate.text="$lat,$long"
 
             binLogo.setOnClickListener{
 
@@ -77,11 +74,8 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
 
                         // Deleting the selected parking from the sqlite database
 
-                        db.removeData(id)
-
+                        db.removeData(dbList[position].id)
                         dbList.removeAt(position)
-                        println(dbList)
-                        dbList.forEach{i->print(i)}
                         notifyDataSetChanged()
 
 
@@ -145,9 +139,9 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
 
         newView?.setOnClickListener {
             val intent = Intent(context, OpenPositionActivity::class.java)
-            intent.putExtra("lat", dbList[i].lat)
+            intent.putExtra("lat", dbList[position].lat)
 
-            intent.putExtra("long", dbList[i].long)
+            intent.putExtra("long", dbList[position].long)
 
 
             context.startActivity(intent)
