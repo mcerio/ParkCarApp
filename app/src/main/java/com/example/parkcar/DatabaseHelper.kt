@@ -66,16 +66,6 @@ class DataBaseHelper(var context: Context) : SQLiteOpenHelper(context, DATABASE_
         return list
     }
 
-    fun removeData(posId:Int) {
 
-        val db = this.readableDatabase
-
-        Log.v("ID","$posId //////////////////////////////////////////////////////////////////////////////////")
-        val query = "Delete from $TABLENAME where $ID_PARKING='$posId'"
-        db.execSQL(query)
-
-
-
-    }
 
 }

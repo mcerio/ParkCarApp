@@ -42,7 +42,7 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
 
              imagePinMaps= newView.findViewById(R.id.imageViewPinMaps)
              shareLogo= newView.findViewById(R.id.imageViewShare)
-             binLogo = newView.findViewById(R.id.imageViewBin)
+
              indirizzo = newView.findViewById(R.id.indirizzo)
              coordinate = newView.findViewById(R.id.coordinate)
 
@@ -52,70 +52,17 @@ class ListPositionAdapter(private val context: Context, private val data: Mutabl
             dbList=db.readData()
 
 
-            id=(dbList[position].id)
-            println(id)
             lat=dbList[position].lat
             long=dbList[position].long
             addr=dbList[position].address
             pos=Position(lat,long,addr)
             indirizzo.text=addr
             coordinate.text="$lat,$long"
-
-            binLogo.setOnClickListener{
-
-
-                val builder = AlertDialog.Builder(context)
-
-                builder.setMessage("Are you sure?")
-
-                    .setCancelable(false)
-
-                    .setPositiveButton("Ok") { _, _ ->
-
-                        // Deleting the selected parking from the sqlite database
-
-                        db.removeData(dbList[position].id)
-                        dbList.removeAt(position)
-                        notifyDataSetChanged()
-
-
-                        val confirmation = AlertDialog.Builder(context)
-
-                        confirmation.setMessage("Cancel")
-
-                            .setCancelable(false)
-
-                            .setPositiveButton("Ok") { dialog, _ ->
+            println(position)
 
 
 
 
-
-
-                                // Dismissing the dialog
-
-                                dialog.dismiss()
-
-                            }
-
-                        confirmation.create().show()
-
-                    }
-
-                    .setNegativeButton("Cancel") { dialog, _ ->
-
-                        // Dismissing the dialog
-
-                        dialog.dismiss()
-
-                    }
-
-
-
-                builder.create().show()
-
-
-            }
 
         }
 

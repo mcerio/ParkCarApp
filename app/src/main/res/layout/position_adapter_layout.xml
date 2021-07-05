@@ -40,10 +40,4 @@
         android:layout_weight="0.5"
         app:srcCompat="?attr/actionModeShareDrawable" />
 
-    <ImageView
-        android:id="@+id/imageViewBin"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_weight="0.5"
-        app:srcCompat="@android:drawable/ic_menu_delete" />
 </LinearLayout>
